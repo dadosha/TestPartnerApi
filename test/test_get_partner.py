@@ -2,42 +2,54 @@ import pytest
 
 from requests_http_signature import HTTPSignatureAuth
 
-# test#1 Budapesht signature
-# test#2 Incorrect signature
+# test#2.01 Budapesht signature
+# test#2.02 Incorrect partner Key Id
+# test#2.03 Incorrect partner Key Secret
 # test#3 Empty signature
 
-@pytest.mark.parametrize(('sig'), (
+@pytest.mark.parametrize(('sig', 'code', 'result'), (
         pytest.param(
             HTTPSignatureAuth(
                 key_id="3",
                 key="12345",
             ),
+            200,
+            {"partner_id": 3},
 
-            id='test#1 Budapesht signature',
+            id='test#2.01 Budapesht signature',
         ),
-    )
-)
-def test_successful_get_partner_id(sig, http_client):
-    r = http_client.get('/test/ext-api/partner/v2/me/', auth=sig)
-    assert r.status_code == 200
-
-@pytest.mark.parametrize(('sig'), (
         pytest.param(
             HTTPSignatureAuth(
                 key_id="3asfgafgahdfahsdh",
                 key="12345",
             ),
+            401,
+            {"code":401,"data":None,"message":"Unexpected key ID","name":"Unauthorized"},
 
-            id='test#2 Incorrect signature',
+            id='test#2.02 Incorrect partner Key Id',
+        ),
+        pytest.param(
+            HTTPSignatureAuth(
+                key_id="3",
+                key="jlhfdsaklfgajsgh",
+            ),
+            401,
+            {"code":401,"data":None,"message":"Invalid signature","name":"Unauthorized"},
+
+            id='test#2.03 Incorrect partner Key Secret',
         ),
         pytest.param(
             None,
+            401,
+            {"code":401,"data":None,"message":"Unexpected key ID","name":"Unauthorized"},
 
-            id='test#3 Empty signature',
+            id='test#2.04 Empty signature',
         ),
     )
 )
-def test_unsuccessful_get_partner_id(sig, http_client):
-    
+def test_successful_get_partner_id(sig, code, result, http_client):
     r = http_client.get('/test/ext-api/partner/v2/me/', auth=sig)
-    assert r.status_code == 401
+    print(sig)
+    print(r.content)
+    assert r.status_code == code
+    assert r.json() == result
