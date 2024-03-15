@@ -2,7 +2,7 @@ import pytest
 
 from requests_http_signature import HTTPSignatureAuth
 
-# test#2.05 Change status payment_pending > paid > cancelling > completed with existing order_id
+# test#2.06 Change status payment_pending > paid > cancelling > completed with existing order_id
 
 @pytest.mark.parametrize(('sig', 'order_id', 'order_path', 'code', 'result'), (
         pytest.param(

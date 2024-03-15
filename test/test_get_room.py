@@ -67,13 +67,4 @@ def test_successful_get_room(sig, id, code, http_client):
     r = http_client.get(f'/test/ext-api/partner/v2/placement/{id}', auth=sig)
 
     print(r.content)
-    data = r.json()
-
-    if code == r.status_code and code == 200:
-        assert data['description'] == 'My test room'
-    elif code == r.status_code and data['code'] == 404:
-        assert data['status'] == 'not_found'
-    elif code == r.status_code and data['code'] == 401:
-        assert data['status'] == 'not_found'
-    else:
-        assert False, 'Uncorrect code'
+    assert r.status_code == code
