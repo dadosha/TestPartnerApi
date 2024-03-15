@@ -5,7 +5,7 @@ from requests_http_signature import HTTPSignatureAuth
 # test#2.01 Budapesht signature
 # test#2.02 Incorrect partner Key Id
 # test#2.03 Incorrect partner Key Secret
-# test#3 Empty signature
+# test#2.04 Empty signature
 
 @pytest.mark.parametrize(('sig', 'code', 'result'), (
         pytest.param(
