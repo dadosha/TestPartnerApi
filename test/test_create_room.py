@@ -24,11 +24,11 @@ from requests_http_signature import HTTPSignatureAuth
     )
 )
 def test_successful_create_room(sig, description, id, name, parent_id, room_type, code, result, http_client):
-    number = random.randint(1, 10000)
+    number = ''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(8)),
     body = {
-        "description": description + str(number),
-        "id": id + str(number),
-        "name": name + str(number),
+        "description": description + number,
+        "id": id + number,
+        "name": name + number,
         "parent_id": parent_id,
         "type": {
             "code": room_type
