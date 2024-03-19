@@ -41,7 +41,7 @@ from requests_http_signature import HTTPSignatureAuth
         pytest.param(
             None,
             401,
-            {"code":401,"data":None,"message":"Unexpected key ID","name":"Unauthorized"},
+            {"code":401,"data":None,"message":"Invalid signature","name":"Unauthorized"},
 
             id='test#2.04 Empty signature',
         ),

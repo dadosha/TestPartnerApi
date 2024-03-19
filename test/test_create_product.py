@@ -93,6 +93,5 @@ def test_successful_create_product_without_objects_and_tags(sig, age_restricted,
 
     r = http_client.post('/test/ext-api/partner/v2/product/', json=body, auth=sig)
     print(body)
-    print(r.body)
     print(r.content)
     assert r.status_code == code
